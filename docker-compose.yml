@@ -1,0 +1,14 @@
+services:
+  frontend:
+    build: ./arcis_frontend_R-D
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./arcis_backend_R-D
+    ports:
+      - "8082:8082"
+    environment:
+      - NODE_ENV=production

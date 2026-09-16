@@ -164,25 +164,30 @@ function MultipleView() {
   const timerId = useRef(null);
 
   // --- URL GENERATION LOGIC (Production Safe) ---
-  const generateStreamUrl = (camera) => {
-    if (!camera) return "";
+ const generateStreamUrl = (camera) => {
+  if (!camera) return "";
 
-    // 1. SSAN Check
-    if (camera.deviceId && camera.deviceId.startsWith("SSAN")) {
-      return `wss://ptz.vmukti.com/live-record/${camera.deviceId}.flv`;
-    }
+  // .env se backend URL lo, http/https ko ws/wss me convert karo
+  const baseUrl = process.env.REACT_APP_BASE_URL || "";
+  const BACKEND_HOST = baseUrl.replace(/^https?:\/\//, ""); // "localhost:8082"
+  const WS_PROTOCOL = baseUrl.startsWith("https") ? "wss" : "ws";
 
-    // 2. Existing P2P Logic
-    if (camera.plan === "LIVE" && camera.p2purl && camera.token) {
-      return `https://${camera.deviceId}.${camera.p2purl}/flv/live_ch0_0.flv?verify=${camera.token}`;
-    }
+  // 1. SSAN Check
+  if (camera.deviceId && camera.deviceId.startsWith("SSAN")) {
+    return `${WS_PROTOCOL}://${BACKEND_HOST}/api/stream/proxy-flv/ptz.vmukti.com/live-record/${camera.deviceId}.flv`;
+  }
 
-    // 3. Media URL Logic
-    if (camera.mediaUrl) {
-      return `wss://${camera.mediaUrl}/jessica/live-record/${camera.deviceId}.flv`;
-    }
-    return "";
-  };
+  // 2. Existing P2P Logic — already secure, no change
+  if (camera.plan === "LIVE" && camera.p2purl && camera.token) {
+    return `https://${camera.deviceId}.${camera.p2purl}/flv/live_ch0_0.flv?verify=${camera.token}`;
+  }
+
+  // 3. Media URL Logic — proxy ke through
+  if (camera.mediaUrl) {
+    return `${WS_PROTOCOL}://${BACKEND_HOST}/api/stream/proxy-flv/${camera.mediaUrl}/jessica/live-record/${camera.deviceId}.flv`;
+  }
+  return "";
+};
 
   // --- Auto Refresh Timer ---
   useEffect(() => {
