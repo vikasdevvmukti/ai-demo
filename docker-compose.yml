@@ -1,14 +1,14 @@
 services:
   frontend:
-    build: ./arcis_frontend_R-D
+    image: vsd2107/arcis_frontend_R-D:latest
+    env_file:
+      - ./frontend/.env
     ports:
       - "80:80"
-    depends_on:
-      - backend
 
   backend:
-    build: ./arcis_backend_R-D
+    image: vsd2107/arcis_backend_R-D:latest
+    env_file:
+      - ./backend/.config.env
     ports:
       - "8082:8082"
-    environment:
-      - NODE_ENV=production
