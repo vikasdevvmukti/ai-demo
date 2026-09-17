@@ -21,14 +21,14 @@ jobs:
       - name: Build and push frontend image
         uses: docker/build-push-action@v2
         with:
-          context: /home/runner/work/ai-demo/arcis_frontend_r-d
+          context: ./arcis_frontend_R-D
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/arcis_frontend_r-d:latest
 
       - name: Build and push backend image
         uses: docker/build-push-action@v2
         with:
-          context: /home/runner/work/ai-demo/arcis_backend_r-d
+          context: ./arcis_backend_R-D
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/arcis_backend_r-d:latest
 
