@@ -24,6 +24,8 @@ jobs:
           context: ./arcis_frontend_R-D
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/arcis_frontend_r-d:latest
+          build-args: |
+            REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}
 
       - name: Build and push backend image
         uses: docker/build-push-action@v2
