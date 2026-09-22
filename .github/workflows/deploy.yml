@@ -48,4 +48,4 @@ jobs:
 
             docker pull ${{ secrets.DOCKER_USERNAME }}/arcis_frontend_r-d:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/arcis_backend_r-d:latest
-            docker compose -f /home/ubuntu/AI-demo/docker-compose.yml up -d
+            docker compose -f /home/ubuntu/docker-compose.yml up -d

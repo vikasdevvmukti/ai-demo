@@ -1,8 +1,6 @@
 services:
   frontend:
     image: vsd2107/arcis_frontend_r-d:latest
-    env_file:
-      - ./frontend/.env
     ports:
       - "80:80"
     depends_on:
