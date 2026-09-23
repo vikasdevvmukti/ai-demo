@@ -1,4 +1,4 @@
-name: Deploy ai-demo portal in docker using GitHub Action
+name: Deploy ai-demo portal in docker using GitHub Actions
 
 on:
   push:
